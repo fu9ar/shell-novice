@@ -43,7 +43,7 @@ it shows us who the shell thinks we are:
 $ whoami
 ~~~
 ~~~ {.output}
-nelle
+username
 ~~~
 
 More specifically, when we type `whoami` the shell:
@@ -63,21 +63,21 @@ i.e.,
 the directory that the computer assumes we want to run commands in
 unless we explicitly specify something else.
 Here,
-the computer's response is `/Users/nelle`,
-which is Nelle's **home directory**:
+the computer's response is `/Users/username`,
+which is Your's **home directory**:
 
 ~~~ {.bash}
 $ pwd
 ~~~
 ~~~ {.output}
-/Users/nelle
+/Users/username
 ~~~
 
 > ## Home directory {.callout}
 >
 > The home directory path will look different on different operating systems.
-> On Linux it will look like `/home/nelle`,
-> and on Windows it will be similar to `C:\Documents and Settings\nelle`.
+> On Linux it will look like `/home/username`,
+> and on Windows it will be similar to `C:\Documents and Settings\username`.
 > Note that it may look slightly different for different versions of Windows.
 
 
@@ -99,7 +99,7 @@ let's have a look at how the file system as a whole is organized.
 At the top is the **root directory**
 that holds everything else.
 We refer to it using a slash character `/` on its own;
-this is the leading slash in `/Users/nelle`.
+this is the leading slash in `/Users/username`.
 
 Inside that directory are several other directories:
 `bin` (which is where some built-in programs are stored),
@@ -110,7 +110,7 @@ and so on:
 
 ![The File System](fig/filesystem.svg)
 
-We know that our current working directory `/Users/nelle` is stored inside `/Users`
+We know that our current working directory `/Users/username` is stored inside `/Users`
 because `/Users` is the first part of its name.
 Similarly,
 we know that `/Users` is stored inside the root directory `/`
@@ -144,7 +144,7 @@ data       north-pacific-gyre  solar.pdf
 Desktop    notes.txt           writing
 ~~~
 
-![Nelle's Home Directory](fig/homedir.svg)
+![Your's Home Directory](fig/homedir.svg)
 
 `ls` prints the names of the files and directories in the current directory in alphabetical order,
 arranged neatly into columns.
@@ -161,7 +161,7 @@ Desktop/    notes.txt            writing/
 ~~~
 
 Here,
-we can see that `/Users/nelle` contains six **sub-directories**.
+we can see that `/Users/username` contains six **sub-directories**.
 The names that don't have trailing slashes,
 like `notes.txt`, `pizza.cfg`, and `solar.pdf`,
 are plain old files.
@@ -172,7 +172,7 @@ which doesn't exist.
 
 > ## What's In A Name? {.callout}
 >
-> You may have noticed that all of Nelle's files' names are "something dot
+> You may have noticed that all of my files' names are "something dot
 > something". This is just a convention: we can call a file `mythesis` or
 > almost anything else we want. However, most people use two-part names
 > most of the time to help them (and their programs) tell different kinds
@@ -191,7 +191,7 @@ which doesn't exist.
 > cause the operating system to try to open it with a music player
 > when someone double-clicks it.
 
-Now let's take a look at what's in Nelle's `data` directory by running `ls -F data`,
+Now let's take a look at what's in a directory by running `ls -F data`,
 i.e.,
 the command `ls` with the **arguments** `-F` and `data`.
 The second argument --- the one *without* a leading dash --- tells `ls` that
@@ -245,14 +245,14 @@ no matter where we are when we run the command.
 
 What if we want to change our current working directory?
 Before we do this,
-`pwd` shows us that we're in `/Users/nelle`,
+`pwd` shows us that we're in `/Users/username`,
 and `ls` without any arguments shows us that directory's contents:
 
 ~~~ {.bash}
 $ pwd
 ~~~
 ~~~ {.output}
-/Users/nelle
+/Users/username
 ~~~
 ~~~ {.bash}
 $ ls
@@ -274,16 +274,16 @@ $ cd data
 ~~~
 
 `cd` doesn't print anything,
-but if we run `pwd` after it, we can see that we are now in `/Users/nelle/data`.
+but if we run `pwd` after it, we can see that we are now in `/Users/username/data`.
 If we run `ls` without arguments now,
-it lists the contents of `/Users/nelle/data`,
+it lists the contents of `/Users/username/data`,
 because that's where we now are:
 
 ~~~ {.bash}
 $ pwd
 ~~~
 ~~~ {.output}
-/Users/nelle/data
+/Users/username/data
 ~~~
 ~~~ {.bash}
 $ ls -F
@@ -307,7 +307,7 @@ but it's almost always simpler to use `cd ..` to go up one level:
 $ pwd
 ~~~
 ~~~ {.output}
-/Users/nelle/data
+/Users/username/data
 ~~~
 ~~~ {.bash}
 $ cd ..
@@ -324,7 +324,7 @@ if we run `pwd` after running `cd ..`, we're back in `/Users/nelle`:
 $ pwd
 ~~~
 ~~~ {.output}
-/Users/nelle
+/Users/username
 ~~~
 
 The special directory `..` doesn't usually show up when we run `ls`.
@@ -355,8 +355,8 @@ Finally, we also see a file called `.bash_profile`. This file usually contains s
 > The special names `.` and `..` don't belong to `ls`;
 > they are interpreted the same way by every program.
 > For example,
-> if we are in `/Users/nelle/data`,
-> the command `ls ..` will give us a listing of `/Users/nelle`.
+> if we are in `/Users/username/data`,
+> the command `ls ..` will give us a listing of `/Users/username`.
 > When the meanings of the parts are the same no matter how they're combined,
 > programmers say they are **orthogonal**:
 > Orthogonal systems tend to be easier for people to learn
@@ -366,9 +366,9 @@ Finally, we also see a file called `.bash_profile`. This file usually contains s
 >
 > The shell interprets the character `~` (tilde) at the start of a path to
 > mean "the current user's home directory". For example, if Nelle's home
-> directory is `/Users/nelle`, then `~/data` is equivalent to
-> `/Users/nelle/data`. This only works if it is the first character in the
-> path: `here/there/~/elsewhere` is *not* `/Users/nelle/elsewhere`. Thus
+> directory is `/Users/username`, then `~/data` is equivalent to
+> `/Users/username/data`. This only works if it is the first character in the
+> path: `here/there/~/elsewhere` is *not* `/Users/username/elsewhere`. Thus
 > `cd ~` can be used to change to the home directory. An even shorter 
 > way to return to user's home directory is `cd` (without arguments).
 
