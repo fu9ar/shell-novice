@@ -16,22 +16,18 @@ minutes: 15
 **Loops** are key to productivity improvements through automation as they allow us to execute 
 commands repetitively. Similar to wildcards and tab completion, using loops also reduces the 
 amount of typing (and typing mistakes).
-Suppose we have several hundred genome data files named `basilisk.dat`, `unicorn.dat`, and so on.
-In this example,
-we'll use the `creatures` directory which only has two example files,
-but the principles can be applied to many many more files at once.
-We would like to modify these files, but also save a version of the original files, naming the copies
-`original-basilisk.dat` and `original-unicorn.dat`.
+We have these .txt files, but we need to copy them to another directory as .tsv files. 
+TSV is a file extension for tab seperated values, basically a text file that is read as a spreadsheet.
 We can't use:
 
 ~~~ {.bash}
-$ cp *.dat original-*.dat
+$ cp *.txt data/*.tsv
 ~~~
 
 because that would expand to:
 
 ~~~ {.bash}
-$ cp basilisk.dat unicorn.dat original-*.dat
+$ cp [all .txt files in the dir] *.tsv
 ~~~
 
 This wouldn't back up our files, instead we get an error:
@@ -50,30 +46,25 @@ to do some operation once for each thing in a list.
 Here's a simple example that displays the first three lines of each file in turn:
 
 ~~~ {.bash}
-$ for filename in basilisk.dat unicorn.dat
+$ for filename in TX.txt NM.txt OK.txt AL.txt LA.txt
 > do
 >    head -3 $filename
 > done
 ~~~
 ~~~ {.output}
-COMMON NAME: basilisk
-CLASSIFICATION: basiliscus vulgaris
-UPDATED: 1745-05-02
-COMMON NAME: unicorn
-CLASSIFICATION: equus monoceros
-UPDATED: 1738-11-24
+output
 ~~~
 
 When the shell sees the keyword `for`,
 it knows it is supposed to repeat a command (or group of commands) once for each thing in a list.
-In this case, the list is the two filenames.
+In this case, the list the filenames.
 Each time through the loop,
 the name of the thing currently being operated on is assigned to
 the **variable** called `filename`.
 Inside the loop,
 we get the variable's value by putting `$` in front of it:
-`$filename` is `basilisk.dat` the first time through the loop,
-`unicorn.dat` the second,
+`$filename` is `TX.txt` the first time through the loop,
+`NM.txt` the second,
 and so on.
 
 By using the dollar sign we are telling the shell interpreter to treat
@@ -100,7 +91,7 @@ The shell itself doesn't care what the variable is called;
 if we wrote this loop as:
 
 ~~~ {.bash}
-for x in basilisk.dat unicorn.dat
+for x in TX.txt NM.txt OK.txt AL.txt LA.txt
 do
     head -3 $x
 done
@@ -109,7 +100,7 @@ done
 or:
 
 ~~~ {.bash}
-for temperature in basilisk.dat unicorn.dat
+for temperature in TX.txt NM.txt OK.txt AL.txt LA.txt
 do
     head -3 $temperature
 done
@@ -124,10 +115,10 @@ increase the odds that the program won't do what its readers think it does.
 Here's a slightly more complicated loop:
 
 ~~~ {.bash}
-for filename in *.dat
+for filename in *.txt
 do
     echo $filename
-    head -100 $filename | tail -20
+    cut -f3 $filename
 done
 ~~~
 
@@ -156,14 +147,13 @@ Note that we can't write this as:
 for filename in *.dat
 do
     $filename
-    head -100 $filename | tail -20
+    cut -f3 $filename | tail -n +2
 done
 ~~~
 
 because then the first time through the loop,
-when `$filename` expanded to `basilisk.dat`, the shell would try to run `basilisk.dat` as a program.
-Finally,
-the `head` and `tail` combination selects lines 81-100 from whatever file is being processed.
+when `$filename` expanded to `AK.txt`, the shell would try to run `AK.txt` as a program.
+Finally, cut and tail prints the third column starting from line 2
 
 > ## Spaces in Names {.callout}
 > 
@@ -171,17 +161,17 @@ the `head` and `tail` combination selects lines 81-100 from whatever file is bei
 > Suppose our data files are named:
 > 
 > ~~~
-> basilisk.dat
-> red dragon.dat
-> unicorn.dat
+> Texas.txt
+> New Mexico.txt
+> Oklahoma.txt
 > ~~~
 > 
 > If we try to process them using:
 > 
 > ~~~
-> for filename in *.dat
+> for filename in *.txt
 > do
->     head -100 $filename | tail -20
+>     cut -f3 $filename | tail -n +2
 > done
 > ~~~
 > 
