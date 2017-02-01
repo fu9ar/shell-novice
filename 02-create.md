@@ -27,9 +27,7 @@ $ pwd
 $ ls -F
 ~~~
 ~~~ {.output}
-creatures/  molecules/           pizza.cfg
-data/       north-pacific-gyre/  solar.pdf
-Desktop/    notes.txt            writing/
+files and directories
 ~~~
 
 Let's create a new directory called `thesis` using the command `mkdir thesis`
@@ -49,10 +47,7 @@ the new directory is created in the current working directory:
 $ ls -F
 ~~~
 ~~~ {.output}
-creatures/  north-pacific-gyre/  thesis/
-data/       notes.txt            writing/
-Desktop/    pizza.cfg
-molecules/  solar.pdf
+files and directories
 ~~~
 
 However, there's nothing in it yet:
