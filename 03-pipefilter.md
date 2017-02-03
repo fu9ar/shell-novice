@@ -110,7 +110,7 @@ some caution.
 `ls lengths.txt` confirms that the file exists:
 
 ~~~ {.bash}
-$ ls lengths.txt
+$ ls counties.txt
 ~~~
 ~~~ {.output}
 lengths.txt
@@ -123,7 +123,7 @@ There's only one file in this case,
 so `cat` just shows us what it contains:
 
 ~~~ {.bash}
-$ cat lengths.txt
+$ cat counties.txt
 ~~~
 ~~~ {.output}
   output
@@ -136,28 +136,10 @@ This does *not* change the file;
 instead, it sends the sorted result to the screen:
 
 ~~~ {.bash}
-$ sort -n lengths.txt
+$ sort -n counties.txt
 ~~~
-~~~ {.output}20  cubane.pdb
-130
-  12  ethane.pdb
-131
-   9  methane.pdb
-132
-  30  octane.pdb
-133
-  21  pentane.pdb
-134
-  15  propane.pdb
-135
- 107  total
-  9  methane.pdb
- 12  ethane.pdb
- 15  propane.pdb
- 20  cubane.pdb
- 21  pentane.pdb
- 30  octane.pdb
-107  total
+~~~ {.output}
+stuff
 ~~~
 
 We can put the sorted list of lines in another temporary file called `sorted-lengths.txt`
@@ -167,11 +149,11 @@ Once we've done that,
 we can run another command called `head` to get the first few lines in `sorted-lengths.txt`:
 
 ~~~ {.bash}
-$ sort -n lengths.txt > sorted-lengths.txt
+$ sort -n counties.txt > sorted-lengths.txt
 $ head -1 sorted-lengths.txt
 ~~~
 ~~~ {.output}
-  9  methane.pdb
+output
 ~~~
 
 Using the parameter `-1` with `head` tells it that
