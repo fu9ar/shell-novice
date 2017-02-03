@@ -149,8 +149,8 @@ Once we've done that,
 we can run another command called `head` to get the first few lines in `sorted-lengths.txt`:
 
 ~~~ {.bash}
-$ sort -n counties.txt > sorted-lengths.txt
-$ head -1 sorted-lengths.txt
+$ sort -n counties.txt > sorted-counties.txt
+$ head -1 sorted-counties.txt
 ~~~
 ~~~ {.output}
 output
@@ -170,10 +170,10 @@ all those intermediate files make it hard to follow what's going on.
 We can make it easier to understand by running `sort` and `head` together:
 
 ~~~ {.bash}
-$ sort -n lengths.txt | head -1
+$ sort -n counties.txt | head -1
 ~~~
 ~~~ {.output}
-  9  methane.pdb
+output
 ~~~
 
 The vertical bar between the two commands is called a **pipe**.
@@ -189,10 +189,10 @@ We can use another pipe to send the output of `wc` directly to `sort`,
 which then sends its output to `head`:
 
 ~~~ {.bash}
-$ wc -l *.pdb | sort -n | head -1
+$ wc -l *.txt | sort -n | head -1
 ~~~
 ~~~ {.output}
-  9  methane.pdb
+county sort
 ~~~
 
 This is exactly like a mathematician nesting functions like *log(3x)*
@@ -218,14 +218,14 @@ it creates a new process
 and temporarily sends whatever we type on our keyboard to that process's standard input,
 and whatever the process sends to standard output to the screen.
 
-Here's what happens when we run `wc -l *.pdb > lengths.txt`.
+Here's what happens when we run `wc -l *.txt > counties.txt`.
 The shell starts by telling the computer to create a new process to run the `wc` program.
 Since we've provided some filenames as parameters,
 `wc` reads from them instead of from standard input.
 And since we've used `>` to redirect output to a file,
 the shell connects the process's standard output to that file.
 
-If we run `wc -l *.pdb | sort -n` instead,
+If we run `wc -l *.txt | sort -n` instead,
 the shell creates two processes
 (one for each process in the pipe)
 so that `wc` and `sort` run simultaneously.
@@ -263,11 +263,11 @@ so that you and other people can put those programs into pipes to multiply their
 > 
 > As well as using `>` to redirect a program's output, we can use `<` to
 > redirect its input, i.e., to read from a file instead of from standard
-> input. For example, instead of writing `wc ammonia.pdb`, we could write
-> `wc < ammonia.pdb`. In the first case, `wc` gets a command line
+> input. For example, instead of writing `wc TX.txt`, we could write
+> `wc < TX.pdb`. In the first case, `wc` gets a command line
 > parameter telling it what file to open. In the second, `wc` doesn't have
 > any command line parameters, so it reads from standard input, but we
-> have told the shell to send the contents of `ammonia.pdb` to `wc`'s
+> have told the shell to send the contents of `TX.txt` to `wc`'s
 > standard input.
 
 > ## What does `sort -n` do? {.challenge}
