@@ -16,7 +16,7 @@ minutes: 15
 **Loops** are key to productivity improvements through automation as they allow us to execute 
 commands repetitively. Similar to wildcards and tab completion, using loops also reduces the 
 amount of typing (and typing mistakes).
-We have these .txt files, but we need to copy them to another directory as .tsv files. 
+We have these .txt files, but we need to copy a subset of them to another directory as .tsv files.
 TSV is a file extension for tab seperated values, basically a text file that is read as a spreadsheet.
 We can't use:
 
@@ -33,12 +33,12 @@ $ cp [all .txt files in the dir] *.tsv
 This wouldn't back up our files, instead we get an error:
 
 ~~~ {.error}
-cp: target `original-*.dat' is not a directory
+cp: target `data/*.tsv' is not a directory`
 ~~~
 
 This a problem arises when `cp` receives more than two inputs. When this happens, it
 expects the last input to be a directory where it can copy all the files it was passed.
-Since there is no directory named `original-*.dat` in the `creatures` directory we get an
+Since there is no directory named `data/*.tsv` in the directory we get an
 error.
 
 Instead, we can use a **loop**
@@ -144,7 +144,7 @@ since the shell expands `$filename` to be the name of a file,
 Note that we can't write this as:
 
 ~~~ {.bash}
-for filename in *.dat
+for filename in *.txt
 do
     $filename
     cut -f3 $filename | tail -n +2
@@ -178,7 +178,7 @@ Finally, cut and tail prints the third column starting from line 2
 > then the shell will expand `*.dat` to create:
 > 
 > ~~~
-> basilisk.dat red dragon.dat unicorn.dat
+> Texas.txt New Mexico.txt Oklahoma.txt
 > ~~~
 > 
 > With older versions of Bash,
@@ -186,23 +186,20 @@ Finally, cut and tail prints the third column starting from line 2
 > `filename` will then be assigned the following values in turn:
 > 
 > ~~~
-> basilisk.dat
-> red
-> dragon.dat
-> unicorn.dat
+> output
 > ~~~
 >
-> That's a problem: `head` can't read files called `red` and `dragon.dat`
+> That's a problem: `head` can't read files called `New` and `Mexico.txt`
 > because they don't exist,
-> and won't be asked to read the file `red dragon.dat`.
+> and won't be asked to read the file `New Mexico.txt`.
 > 
 > We can make our script a little bit more robust
 > by **quoting** our use of the variable:
 > 
 > ~~~
-> for filename in *.dat
+> for filename in *.txt
 > do
->     head -100 "$filename" | tail -20
+>     cut -f3 $filename | tail -n +2
 > done
 > ~~~
 >
@@ -212,25 +209,25 @@ Going back to our original file copying problem,
 we can solve it using this loop:
 
 ~~~ {.bash}
-for filename in *.dat
+for filename in *.txt
 do
-    cp $filename original-$filename
+    cp $filename data/"$filename".tsv
 done
 ~~~
 
 This loop runs the `cp` command once for each filename.
 The first time,
-when `$filename` expands to `basilisk.dat`,
+when `$filename` expands to `New Mexico.txt`,
 the shell executes:
 
 ~~~ {.bash}
-cp basilisk.dat original-basilisk.dat
+output
 ~~~
 
 The second time, the command is:
 
 ~~~ {.bash}
-cp unicorn.dat original-unicorn.dat
+cp Texas.txt data/Texas.txt.tsv
 ~~~
 
 > ## Measure Twice, Run Once {.callout}
@@ -241,9 +238,9 @@ cp unicorn.dat original-unicorn.dat
 > For example, we could write our file copying loop like this:
 > 
 > ~~~
-> for filename in *.dat
+> for filename in *.txt
 > do
->     echo cp $filename original-$filename
+>     echo cp $filename data/$filenamoriginale
 > done
 > ~~~
 > 
@@ -260,85 +257,7 @@ cp unicorn.dat original-unicorn.dat
 > isn't foolproof, but it's a handy way to see what's going to happen when
 > you're still learning how loops work.
 
-## Nelle's Pipeline: Processing Files
 
-Nelle is now ready to process her data files.
-Since she's still learning how to use the shell,
-she decides to build up the required commands in stages.
-Her first step is to make sure that she can select the right files --- remember,
-these are ones whose names end in 'A' or 'B', rather than 'Z'. Starting from her home directory, Nelle types:
-
-~~~ {.bash}
-$ cd north-pacific-gyre/2012-07-03
-$ for datafile in *[AB].txt
-> do
->     echo $datafile
-> done
-~~~
-~~~ {.output}
-NENE01729A.txt
-NENE01729B.txt
-NENE01736A.txt
-...
-NENE02043A.txt
-NENE02043B.txt
-~~~
-
-Her next step is to decide
-what to call the files that the `goostats` analysis program will create.
-Prefixing each input file's name with "stats" seems simple,
-so she modifies her loop to do that:
-
-~~~ {.bash}
-$ for datafile in *[AB].txt
-> do
->     echo $datafile stats-$datafile
-> done
-~~~
-~~~ {.output}
-NENE01729A.txt stats-NENE01729A.txt
-NENE01729B.txt stats-NENE01729B.txt
-NENE01736A.txt stats-NENE01736A.txt
-...
-NENE02043A.txt stats-NENE02043A.txt
-NENE02043B.txt stats-NENE02043B.txt
-~~~
-
-She hasn't actually run `goostats` yet,
-but now she's sure she can select the right files and generate the right output filenames.
-
-Typing in commands over and over again is becoming tedious,
-though,
-and Nelle is worried about making mistakes,
-so instead of re-entering her loop,
-she presses the up arrow.
-In response,
-the shell redisplays the whole loop on one line
-(using semi-colons to separate the pieces):
-
-~~~ {.bash}
-$ for datafile in *[AB].txt; do echo $datafile stats-$datafile; done
-~~~
-
-Using the left arrow key,
-Nelle backs up and changes the command `echo` to `goostats`:
-
-~~~ {.bash}
-$ for datafile in *[AB].txt; do bash goostats $datafile stats-$datafile; done
-~~~
-
-When she presses enter,
-the shell runs the modified command.
-However, nothing appears to happen --- there is no output.
-After a moment, Nelle realizes that since her script doesn't print anything to the screen any longer,
-she has no idea whether it is running, much less how quickly.
-She kills the job by typing Control-C,
-uses up-arrow to repeat the command,
-and edits it to read:
-
-~~~ {.bash}
-$ for datafile in *[AB].txt; do echo $datafile; bash goostats $datafile stats-$datafile; done
-~~~
 
 > ## Beginning and End {.callout}
 >
