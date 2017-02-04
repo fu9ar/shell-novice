@@ -30,7 +30,7 @@ because that would expand to:
 $ cp [all .txt files in the dir] *.tsv
 ~~~
 
-This wouldn't back up our files, instead we get an error:
+This wouldn't copy our files, instead we get an error:
 
 ~~~ {.error}
 cp: target `data/*.tsv' is not a directory`
@@ -342,6 +342,43 @@ The second time, the command is:
 cp Texas.txt data/Texas.txt.tsv
 ~~~
 
+## Advanced Bash Madness Teaser
+
+Let's try to rename the files that we have in a subdirectory.
+
+~~~ {.bash}
+for filename in *.txt
+do
+    cp $filename data/$filename.tsv
+done
+ls
+~~~
+
+You notice that this leaves us with a bunch of files that are named .txt.tsv, and 
+also a few copies of files that we don't want to have in our dataset.
+
+Let's go ahead and nuke our new working directory. Remember, it is generally good practice
+to create separate working directories when you are hacking on a dataset so that you don't
+accidently delete things.
+
+~~~ {.bash}
+rm data/*
+~~~
+
+Bash has a lot of bits that are built in to do string manipulation.
+
+~~~ {.bash}
+for filename in ??.txt
+do
+    cp $filename data/${filename:0:2}.tsv
+done
+~~~
+
+The bit inside the curlybraces means that we only use the first two letters, making
+a cleaned data directory full of a single tab separated values file for each.
+
+Plug Advanced Bash Scripting Guide
+
 > ## Measure Twice, Run Once {.callout}
 > 
 > A loop is a way to do many things at once --- or to make many mistakes at
@@ -352,7 +389,7 @@ cp Texas.txt data/Texas.txt.tsv
 > ~~~
 > for filename in *.txt
 > do
->     echo cp $filename data/$filenamoriginale
+>     echo cp $filename data/$filename
 > done
 > ~~~
 > 
