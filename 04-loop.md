@@ -171,117 +171,60 @@ Finally, cut and tail prints the third column starting from line 2
 > ~~~
 > for filename in *.txt
 > do> ## Variables in shell scripts {.challenge}
-335
->
-336
 > In the molecules directory, you have a shell script called `script.sh` containing the 
-337
 > following commands:
-338
 >
-339
 > ~~~
-340
 > head $2 $1
-341
 > tail $3 $1
-342
 > ~~~
-343
 > 
-344
 > While you are in the molecules directory, you type the following command:
-345
 >
-346
 > ~~~
-347
 > bash script.sh '*.pdb' -1 -1
-348
 > ~~~
-349
 > 
-350
 > Which of the following outputs would you expect to see?
-351
 >
-352
 > 1. All of the lines between the first and the last lines of each file ending in `*.pdb`
-353
 >    in the molecules directory 
-354
 > 2. The first and the last line of each file ending in `*.pdb` in the molecules directory
-355
 > 3. The first and the last line of each file in the molecules directory
-356
 > 4. An error because of the quotes around `*.pdb`
-357
 ​
-358
 > ## List unique species {.challenge}
-359
 > 
-360
 > Leah has several hundred data files, each of which is formatted like this:
-361
 > 
-362
 > ~~~
-363
 > 2013-11-05,deer,5
-364
 > 2013-11-05,rabbit,22
-365
 > 2013-11-05,raccoon,7
-366
 > 2013-11-06,rabbit,19
-367
 > 2013-11-06,deer,2
-368
 > 2013-11-06,fox,1
-369
 > 2013-11-07,rabbit,18
-370
 > 2013-11-07,bear,1
-371
 > ~~~
-372
 > 
-373
 > Write a shell script called `species.sh` that takes any number of
-374
 > filenames as command-line parameters, and uses `cut`, `sort`, and
-375
 > `uniq` to print a list of the unique species appearing in each of
-376
 > those files separately.
-377
 ​
-378
 > ## Find the longest file with a given extension {.challenge}
-379
 > 
-380
 > Write a shell script called `longest.sh` that takes the name of a
-381
 > directory and a filename extension as its parameters, and prints
-382
 > out the name of the file with the most lines in that directory
-383
 > with that extension. For example:
-384
 > 
-385
 > ~~~
-386
 > $ bash longest.sh /tmp/data pdb
-387
 > ~~~
-388
 > 
-389
 > would print the name of the `.pdb` file in `/tmp/data` that has
-390
 > the most lines.
 >     cut -f3 $filename | tail -n +2
 > done
